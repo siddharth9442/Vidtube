@@ -12,3 +12,5 @@ const connectDB = async () => {
 }
 
 export default connectDB;
+
+// mongodb+srv://siddharth:93HXPTMlTmlXqGCp@cluster0.l55r83q.mongodb.net
