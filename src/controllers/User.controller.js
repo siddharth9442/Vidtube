@@ -6,17 +6,6 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 
 const registerUser = asyncHandler( async (req, res) => {
 
-    // get user details from frontend
-    // validation
-    // check if user is already exists: username, email
-    // check for images, check for avatar
-    // upload them to cloudinary, avatar
-    // create user object
-    // remove password and refresh token field from response
-    // check for user creation
-    // return res
-
-
     const {username, email, fullName, password } = req.body
 
     if (
@@ -34,7 +23,11 @@ const registerUser = asyncHandler( async (req, res) => {
     }
 
     const avatarLocalPath = req.files?.avatar[0]?.path;
-    const coverImageLocalPath = req.files?.coverImage[0]?.path;
+
+    let coverImageLocalPath;
+    if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+        coverImageLocalPath = req.files.coverImage[0].path
+    }
 
     if (!avatarLocalPath) {
         throw new ApiError(400, "Avatar is required")
@@ -69,3 +62,14 @@ const registerUser = asyncHandler( async (req, res) => {
 export {
     registerUser,
 }
+
+// algorithm
+    // get user details from frontend
+    // validation
+    // check if user is already exists: username, email
+    // check for images, check for avatar
+    // upload them to cloudinary, avatar
+    // create user object
+    // remove password and refresh token field from response
+    // check for user creation
+    // return res
