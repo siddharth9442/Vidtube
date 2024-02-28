@@ -31,10 +31,12 @@ const userSchema = new Schema({
     coverImage: {
         type: String,
     },
-    watchHistory: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-    },
+    watchHistory: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ],
     password: {
         type: String,
         required: [true, 'Password is required']
