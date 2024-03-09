@@ -73,7 +73,9 @@ const registerUser = asyncHandler( async (req, res) => {
         throw new ApiError(500, "something went wrong while registering user")
     }
 
-    return res.status(200).json(
+    return res
+    .status(200)
+    .json(
         new ApiResponse(200, createdUser, "User registered successfully")
     )
 
@@ -133,8 +135,8 @@ const logoutUser = asyncHandler( async (req, res) => {
     await User.findByIdAndUpdate(
         req.user._id,
         {
-            $set: {
-                refreshToken: undefined
+            $unset: {
+                refreshToken: 1
             }
         },
         {
