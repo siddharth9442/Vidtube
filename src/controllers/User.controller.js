@@ -81,7 +81,7 @@ const registerUser = asyncHandler( async (req, res) => {
 
 } )
 
-const loginUser = asyncHandler( async (req, res) => {
+const loginUser = asyncHandler( async (req, res) => {   
 
     const { email, username, password } = req.body
 
@@ -387,7 +387,7 @@ const getWatchHistory = asyncHandler( async (req, res) => {
     const user = await User.aggregate([
         {
             $match: {
-                _id: mongoose.Types.ObjectId(req.user._id)
+                _id: new    mongoose.Types.ObjectId(req.user._id)
             },
         },
         {
