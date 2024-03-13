@@ -8,29 +8,28 @@ import { uploadOnCloudinary } from "../utils/Cloudinary.js";
 const getAllVideos = asyncHandler(async (req, res) => {
     const { page = 1, limit = 3, query, sortBy, sortType, userId } = req.query
 
-    let filter = {};
+    let matchStage = {}
     if (query) {
-        filter = { $text: { $search: query } }
+        matchStage = { $match: { $text: { $search: query } } }
     }
-
-    
     if (userId) {
-        filter.userId = userId
+        matchStage = { $match: { userId } }
     }
 
-    let sort = {}
+    let sortStage = {}
     if (sortBy && sortType) {
-        sort[sortBy] = sortType === 'asc' ? 1 : -1;
-    }else{
-        sort.createdAt = -1;
+        sortStage = { $sort: { [sortBy]: sortType === 'asc' ? 1 : -1 } }
+    }
+    else{
+        sortStage = { $sort: { createdAt: -1 } }
     }
 
-    const skip = (page - 1) * limit;
+    const options = {
+        page: parseInt(page),
+        limit: parseInt(limit)
+    }
 
-    const allVideos = await Video.find(filter)
-    .sort(sort)
-    .skip(skip)
-    .limit(limit)
+    const allVideos = await Video.aggregatePaginate([ matchStage, sortStage ], options)
 
     return res
     .status(200)

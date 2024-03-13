@@ -13,8 +13,6 @@ const toggleSubscription = asyncHandler(async (req, res) => {
             $and: [{ channel: channelId }, { subscriber: req.user._id }]
         })
 
-        console.log(isSubscribed);
-        
         if (isSubscribed) {
             const channel = await Subscription.findOneAndDelete({
                 $and: [{ channel: channelId }, { subscriber: req.user._id }]
