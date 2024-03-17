@@ -1,23 +1,25 @@
 import mongoose, { Schema } from "mongoose";
-import { string } from "prop-types";
 
 const playlistSchema = new Schema({
     name: {
         type: String,
         required: true,
+        unique: true
     },
     description: {
-        type: string,
+        type: String,
         required: true,
     },
-    video: {
-        type: Schema.Types.ObjectId,
-        ref: 'Video'
-    },
+    video: [
+        {
+            type: Schema.Types.ObjectId,
+            required: true,
+        }
+    ],
     owner: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     }
 }, { timestamps: true })
 
-export const Playlist = mongoose.model('Model', playlistSchema)
+export const Playlist = mongoose.model('Playlist', playlistSchema)
